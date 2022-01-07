@@ -1,14 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
 import Navigation from './routes';
 import {ThemeProvider} from 'styled-components';
 import {defaultTheme} from './themes/theme';
+import {PokemonAppProvider} from './hooks';
 
 const App: React.FC = () => {
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Navigation />
-    </ThemeProvider>
+    <PokemonAppProvider>
+      <ThemeProvider theme={defaultTheme}>
+        <Navigation />
+      </ThemeProvider>
+    </PokemonAppProvider>
   );
 };
 
