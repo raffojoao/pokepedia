@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
-// import { Container } from './styles';
+import * as S from './styles';
 
 const Catalog: React.FC = () => {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const Catalog: React.FC = () => {
         backgroundColor: 'blue',
       }}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={{fontSize: 72}}>Go to Home</Text>
+        <S.Text>Go to Home</S.Text>
       </TouchableOpacity>
     </View>
   );
