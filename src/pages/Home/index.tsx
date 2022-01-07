@@ -13,8 +13,8 @@ const Home: React.FC = () => {
   const {getPokemon} = usePokemon();
 
   const getPkmTest = async () => {
-    const pokemon = await getPokemon('1');
-    console.log(pokemon.name);
+    const pokemon: any = await getPokemon('1');
+    console.log(pokemon?.name);
   };
 
   useEffect(() => {

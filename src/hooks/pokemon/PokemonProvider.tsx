@@ -1,7 +1,10 @@
-import React, {createContext, useContext} from 'react';
+import React, {createContext, useState, useContext} from 'react';
 import api from '../../services/api';
+interface IPokemonContext {
+  getPokemon: (params: string) => Promise<void>;
+}
 
-const PokemonProviderContext = createContext({});
+const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
 
 const PokemonProvider = ({children}: any) => {
   const getPokemon = async (params?: string) => {
@@ -12,24 +15,24 @@ const PokemonProvider = ({children}: any) => {
   };
 
   return (
-    <PokemonProviderContext.Provider
+    <PokemonContext.Provider
       value={{
         getPokemon,
       }}>
       {children}
-    </PokemonProviderContext.Provider>
+    </PokemonContext.Provider>
   );
 };
 
-const usePokemon = () => {
-  const context = useContext(PokemonProviderContext);
+function usePokemon(): IPokemonContext {
+  const context = useContext(PokemonContext);
 
   if (!context)
     throw new Error(
-      'usePokemonProvider must be used within as PokemonProviderContext',
+      'usePokemonProvider must be used within as PokemonProvider',
     );
 
   return context;
-};
+}
 
 export {PokemonProvider, usePokemon};
