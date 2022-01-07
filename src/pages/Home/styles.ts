@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Test = styled.View`
+export const Container = styled.SafeAreaView`
   flex: 1;
-  background-color: ${({theme}) => theme.colors.types.fairy};
-  align-items: center;
-  justify-content: center;
+  background-color: ${({theme}) => theme.colors.grayScale.background};
 `;
