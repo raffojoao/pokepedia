@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
+
+import {PokeCard} from '../../components';
 
 import {useNavigation} from '@react-navigation/native';
 import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
@@ -22,6 +24,12 @@ const Home: React.FC = () => {
     <S.Test>
       <TouchableOpacity onPress={() => navigation.navigate('Catalog')}>
         <Text style={{fontSize: 72}}>Go to Catalog</Text>
+        <PokeCard
+          title="Bulbasaur"
+          number="1"
+          spriteUri="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+          handlePress={() => console.log('Test')}
+        />
       </TouchableOpacity>
     </S.Test>
   );
