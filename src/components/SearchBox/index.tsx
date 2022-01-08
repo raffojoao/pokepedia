@@ -3,7 +3,15 @@ import Images from '../../constants/images';
 
 import * as S from './styles';
 
-const SearchBox: React.FC = () => {
+interface SearchBoxProps {
+  toggleSortMode: () => void;
+  sortByNumber: boolean;
+}
+
+const SearchBox: React.FC<SearchBoxProps> = ({
+  toggleSortMode,
+  sortByNumber,
+}) => {
   return (
     <S.Container>
       <S.TitleContainer>
@@ -11,9 +19,9 @@ const SearchBox: React.FC = () => {
           <Images.pokeballSmall />
           <S.TitleText>Pokédex</S.TitleText>
         </S.TitleLeft>
-        <S.SortBy>
-          <Images.sortByName />
-        </S.SortBy>
+        {/* <S.SortBy onPress={toggleSortMode}>
+          {sortByNumber ? <Images.sortByName /> : <Images.sortByNumber />}
+        </S.SortBy> */}
       </S.TitleContainer>
       <S.SearchBox>
         <S.SearchText>Search</S.SearchText>

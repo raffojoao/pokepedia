@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   width: 100%;
   padding-horizontal: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 `;
 
 export const TitleContainer = styled.View`
@@ -27,7 +27,7 @@ export const SearchBox = styled.TouchableOpacity`
   height: 32px;
   margin-top: 8px;
   background-color: ${({theme}) => theme.colors.grayScale.white};
-  border-radius: 12px;
+  border-radius: 8px;
   border-width: 1px;
   border-color: ${({theme}) => theme.colors.grayScale.light};
   justify-content: center;
