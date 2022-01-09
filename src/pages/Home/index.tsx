@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, TouchableOpacity, View} from 'react-native';
-import {SearchBox, PokeCard, PokeList} from '../../components';
+import {SearchBox, PokeCard, PokeList, Footer} from '../../components';
 import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import {useNavigation} from '@react-navigation/native';
 
 import * as S from './styles';
 
 const Home: React.FC = () => {
-  const [offset, setOffset] = useState(0);
   const [sortByNumber, setSortByNumber] = useState(true);
 
   const {
@@ -17,6 +16,8 @@ const Home: React.FC = () => {
     hasPrevious,
     getNext,
     getPrevious,
+    totalFound,
+    offset,
   } = usePokemon();
 
   const navigation = useNavigation();
@@ -44,20 +45,16 @@ const Home: React.FC = () => {
         <S.ListContainer>
           <PokeList data={allPokemon} />
         </S.ListContainer>
-        <View
-          style={{backgroundColor: 'yellow', flex: 1, flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={{width: 100, height: 100, backgroundColor: 'blue'}}
-            onPress={getPrevious}
-            disabled={!hasPrevious}
-          />
-          <TouchableOpacity
-            style={{width: 100, height: 100, backgroundColor: 'red'}}
-            onPress={getNext}
-            disabled={!hasNext}
-          />
-        </View>
       </S.Wrapper>
+      <Footer
+        leftButtonEnabled={hasPrevious}
+        rightButtonEnabled={hasNext}
+        onPressLeftButton={getPrevious}
+        onPressRightButton={getNext}
+        totalItems={totalFound}
+        currentItems={offset}
+        // onChangeOffset={(ed: string) => console.warn(ed)}
+      />
     </S.Container>
   );
 };

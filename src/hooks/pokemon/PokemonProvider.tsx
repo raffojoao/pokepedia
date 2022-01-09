@@ -15,6 +15,10 @@ export interface IPokemonContext {
   setHasPrevious: () => void;
   getNext: () => Promise<void>;
   getPrevious: () => Promise<void>;
+  totalFound: string;
+  setTotalFound: (total: string) => void;
+  offset: number;
+  setOffset: (offset: number) => void;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -25,6 +29,8 @@ const PokemonProvider = ({children}: any) => {
   const [hasPrevious, setHasPrevious] = useState(false);
   const [nextUrl, setNextUrl] = useState('');
   const [previousUrl, setPreviousUrl] = useState('');
+  const [totalFound, setTotalFound] = useState('');
+  const [offset, setOffset] = useState(20);
 
   const handlePagination = (response: any) => {
     if (response.next) {
@@ -42,16 +48,15 @@ const PokemonProvider = ({children}: any) => {
     }
   };
 
-  const getAllPokemon = async (limit?: number, offset?: number) => {
+  const getAllPokemon = async () => {
     try {
       const response = await (
-        await api.get(
-          `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`,
-        )
+        await api.get(`https://pokeapi.co/api/v2/pokemon/`)
       ).data;
 
       handlePagination(response);
 
+      setTotalFound(response.count);
       setAllPokemon(response.results);
     } catch (error) {
       console.log(error);
@@ -63,6 +68,7 @@ const PokemonProvider = ({children}: any) => {
       try {
         const response = (await api.get(nextUrl)).data;
         setAllPokemon(response.results);
+        setOffset(offset + 20);
         handlePagination(response);
       } catch (error) {
         console.log(error);
@@ -75,6 +81,7 @@ const PokemonProvider = ({children}: any) => {
       try {
         const response = await (await api.get(previousUrl)).data;
         setAllPokemon(response.results);
+        setOffset(offset - 20);
         handlePagination(response);
       } catch (error) {
         console.log(error);
@@ -93,6 +100,10 @@ const PokemonProvider = ({children}: any) => {
         getPrevious,
         setHasNext,
         setHasPrevious,
+        totalFound,
+        setTotalFound,
+        offset,
+        setOffset,
       }}>
       {children}
     </PokemonContext.Provider>

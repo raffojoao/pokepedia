@@ -1,3 +1,4 @@
-export {default as SearchBox} from './SearchBox';
+export {default as Footer} from './Footer';
 export {default as PokeCard} from './PokeCard';
 export {default as PokeList} from './PokeList';
+export {default as SearchBox} from './SearchBox';

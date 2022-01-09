@@ -15,19 +15,18 @@ const PokeList: React.FC<PokeListProps> = ({data}) => {
         justifyContent: 'space-between',
         marginBottom: 8,
       }}
-      renderItem={({item, index}) => {
-        const strings = item.url.split('/');
+      renderItem={({item}) => {
+        let pokeNumber = item.url.slice(0, -1);
+        pokeNumber = pokeNumber.substring(pokeNumber.lastIndexOf('/') + 1);
 
-        const uri = strings[strings.length - 2];
-        console.log(uri);
         return (
           <PokeCard
             handlePress={function (): void {
               throw new Error('Function not implemented.');
             }}
             title={item.name}
-            spriteUri={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${uri}.png`}
-            number={''}
+            spriteUri={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeNumber}.png`}
+            number={pokeNumber}
           />
         );
       }}

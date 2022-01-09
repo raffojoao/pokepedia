@@ -11,12 +11,6 @@ export const Wrapper = styled.View`
 `;
 
 export const ListContainer = styled.View`
-  margin-top: 16px;
+  margin-vertical: 8px;
   flex: 1;
-`;
-
-export const FooterContainer = styled.TouchableOpacity`
-  background-color: red;
-  width: 100%;
-  height: 40px;
 `;

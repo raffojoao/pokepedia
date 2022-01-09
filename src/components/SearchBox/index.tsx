@@ -17,7 +17,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({
       <S.TitleContainer>
         <S.TitleLeft>
           <Images.pokeballSmall />
-          <S.TitleText>Pokédex</S.TitleText>
+          <S.TitleText>Poképedia</S.TitleText>
         </S.TitleLeft>
         {/* <S.SortBy onPress={toggleSortMode}>
           {sortByNumber ? <Images.sortByName /> : <Images.sortByNumber />}
