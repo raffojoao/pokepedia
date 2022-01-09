@@ -6,6 +6,7 @@ import arrowLeft from '../assets/images/arrow-left.svg';
 import arrowLeftDisabled from '../assets/images/arrow-left-disabled.svg';
 import arrowRight from '../assets/images/arrow-right.svg';
 import arrowRightDisabled from '../assets/images/arrow-right-disabled.svg';
+import search from '../assets/images/search.svg';
 
 class Images {
   static pokeball = pokeball;
@@ -16,6 +17,7 @@ class Images {
   static arrowLeftDisabled = arrowLeftDisabled;
   static arrowRight = arrowRight;
   static arrowRightDisabled = arrowRightDisabled;
+  static search = search;
 }
 
 export default Images;

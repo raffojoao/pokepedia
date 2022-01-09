@@ -22,19 +22,21 @@ export const TitleText = styled.Text`
   margin-left: 16px;
 `;
 
-export const SearchBox = styled.TouchableOpacity`
+export const SearchBox = styled.View`
   width: 100%;
   height: 32px;
   margin-top: 8px;
+  padding-horizontal: 8px;
   background-color: ${({theme}) => theme.colors.grayScale.white};
   border-radius: 8px;
   border-width: 1px;
   border-color: ${({theme}) => theme.colors.grayScale.light};
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: row;
 `;
 
-export const SearchText = styled.Text`
+export const SearchText = styled.TextInput`
   font-family: ${({theme}) => theme.fonts.regular}
   font-size: 16px;
   color: ${({theme}) => theme.colors.grayScale.medium}

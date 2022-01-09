@@ -4,9 +4,10 @@ import {PokeCard} from '../';
 
 interface PokeListProps {
   data: any;
+  footer: any;
 }
 
-const PokeList: React.FC<PokeListProps> = ({data}) => {
+const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
   return (
     <FlatList
       keyExtractor={(_, index) => String(index)}
@@ -32,6 +33,7 @@ const PokeList: React.FC<PokeListProps> = ({data}) => {
       }}
       numColumns={2}
       showsVerticalScrollIndicator={false}
+      ListFooterComponent={footer}
     />
   );
 };

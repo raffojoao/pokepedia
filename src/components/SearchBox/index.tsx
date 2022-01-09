@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {TouchableOpacity} from 'react-native';
 import Images from '../../constants/images';
+import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 
 import * as S from './styles';
 
@@ -12,6 +14,13 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   toggleSortMode,
   sortByNumber,
 }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const {getAllPokemon, searchPokemon} = usePokemon();
+
+  useEffect(() => {
+    searchTerm.trim() === '' && getAllPokemon();
+  }, [searchTerm]);
+
   return (
     <S.Container>
       <S.TitleContainer>
@@ -24,7 +33,17 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         </S.SortBy> */}
       </S.TitleContainer>
       <S.SearchBox>
-        <S.SearchText>Search</S.SearchText>
+        <S.SearchText
+          placeholder="Search"
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+          maxLength={20}
+          onSubmitEditing={() => searchPokemon(searchTerm)}
+          onEndEditing={() => searchPokemon(searchTerm)}
+        />
+        <TouchableOpacity onPress={() => searchPokemon(searchTerm)}>
+          <Images.search />
+        </TouchableOpacity>
       </S.SearchBox>
     </S.Container>
   );

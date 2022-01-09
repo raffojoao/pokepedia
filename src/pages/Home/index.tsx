@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
-import {SearchBox, PokeCard, PokeList, Footer} from '../../components';
+import {SearchBox, PokeList, Footer} from '../../components';
 import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import {useNavigation} from '@react-navigation/native';
 
@@ -12,10 +11,9 @@ const Home: React.FC = () => {
   const {
     getAllPokemon,
     allPokemon,
+    setAllPokemon,
     hasNext,
-    hasPrevious,
     getNext,
-    getPrevious,
     totalFound,
     offset,
   } = usePokemon();
@@ -35,7 +33,12 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getPokemon();
+    if (!sortByNumber) {
+      const pokemonByName = allPokemon.sort((a, b) =>
+        a.name.localeCompare(b.name),
+      );
+      setAllPokemon(pokemonByName);
+    }
   }, [sortByNumber]);
 
   return (
@@ -43,18 +46,12 @@ const Home: React.FC = () => {
       <SearchBox sortByNumber={sortByNumber} toggleSortMode={toggleSortMode} />
       <S.Wrapper>
         <S.ListContainer>
-          <PokeList data={allPokemon} />
+          <PokeList
+            data={allPokemon}
+            footer={hasNext && <Footer handlePress={getNext} />}
+          />
         </S.ListContainer>
       </S.Wrapper>
-      <Footer
-        leftButtonEnabled={hasPrevious}
-        rightButtonEnabled={hasNext}
-        onPressLeftButton={getPrevious}
-        onPressRightButton={getNext}
-        totalItems={totalFound}
-        currentItems={offset}
-        // onChangeOffset={(ed: string) => console.warn(ed)}
-      />
     </S.Container>
   );
 };

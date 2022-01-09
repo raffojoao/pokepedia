@@ -1,4 +1,4 @@
-import React, {createContext, useState, useContext} from 'react';
+import React, {createContext, useState, useContext, useEffect} from 'react';
 import api from '../../services/api';
 
 type Pokemon = {
@@ -10,15 +10,16 @@ export interface IPokemonContext {
   allPokemon: Pokemon[];
   setAllPokemon?: (pokemon: any[]) => void;
   hasNext: boolean;
-  hasPrevious: boolean;
   setHasNext: () => void;
-  setHasPrevious: () => void;
   getNext: () => Promise<void>;
-  getPrevious: () => Promise<void>;
   totalFound: string;
   setTotalFound: (total: string) => void;
   offset: number;
   setOffset: (offset: number) => void;
+  searchPokemon: (name: string) => Promise<void>;
+  loadMore: () => Promise<void>;
+  totalViewed: number;
+  setTotalViewed: (number: number) => void;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -26,11 +27,10 @@ const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
 const PokemonProvider = ({children}: any) => {
   const [allPokemon, setAllPokemon] = useState([]);
   const [hasNext, setHasNext] = useState(false);
-  const [hasPrevious, setHasPrevious] = useState(false);
   const [nextUrl, setNextUrl] = useState('');
-  const [previousUrl, setPreviousUrl] = useState('');
   const [totalFound, setTotalFound] = useState('');
-  const [offset, setOffset] = useState(20);
+  const [offset, setOffset] = useState(0);
+  const [viewedItems, setViewedItems] = useState(offset + 20);
 
   const handlePagination = (response: any) => {
     if (response.next) {
@@ -39,24 +39,15 @@ const PokemonProvider = ({children}: any) => {
     } else {
       setHasNext(false);
     }
-
-    if (response.previous) {
-      setHasPrevious(true);
-      setPreviousUrl(response.previous);
-    } else {
-      setHasPrevious(false);
-    }
   };
 
   const getAllPokemon = async () => {
     try {
       const response = await (
-        await api.get(`https://pokeapi.co/api/v2/pokemon/`)
+        await api.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset}`)
       ).data;
 
       handlePagination(response);
-
-      setTotalFound(response.count);
       setAllPokemon(response.results);
     } catch (error) {
       console.log(error);
@@ -66,26 +57,48 @@ const PokemonProvider = ({children}: any) => {
   const getNext = async () => {
     if (hasNext) {
       try {
-        const response = (await api.get(nextUrl)).data;
-        setAllPokemon(response.results);
-        setOffset(offset + 20);
-        handlePagination(response);
+        const difference = 898 - viewedItems;
+        if (difference >= 20) {
+          const response = (await api.get(nextUrl)).data;
+          setOffset(offset + 20);
+          setViewedItems(viewedItems + 20);
+          setAllPokemon(oldState => [...oldState, ...response.results]);
+          handlePagination(response);
+        } else {
+          const response = (
+            await api.get(
+              `https://pokeapi.co/api/v2/pokemon?limit=${difference}&offset=${viewedItems}`,
+            )
+          ).data;
+          setAllPokemon(oldState => [...oldState, ...response.results]);
+          setOffset(898);
+          setViewedItems(898);
+          setHasNext(false);
+        }
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  const getPrevious = async () => {
-    if (hasPrevious) {
-      try {
-        const response = await (await api.get(previousUrl)).data;
-        setAllPokemon(response.results);
-        setOffset(offset - 20);
-        handlePagination(response);
-      } catch (error) {
-        console.log(error);
-      }
+  const searchPokemon = async (name: string) => {
+    try {
+      let foundPokemon = await (
+        await api.get(`https://pokeapi.co/api/v2/pokemon?limit=898`)
+      ).data;
+
+      foundPokemon = foundPokemon.results.filter(item =>
+        item.name.toLowerCase().includes(name.toLowerCase()),
+      );
+
+      // setTotalFound(foundPokemon.length);
+      // if (foundPokemon.length < 20) {
+      //   setOffset(foundPokemon.length);
+      // }
+      setAllPokemon(foundPokemon);
+      setHasNext(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -95,15 +108,14 @@ const PokemonProvider = ({children}: any) => {
         getAllPokemon,
         allPokemon,
         hasNext,
-        hasPrevious,
         getNext,
-        getPrevious,
         setHasNext,
-        setHasPrevious,
         totalFound,
         setTotalFound,
         offset,
         setOffset,
+        searchPokemon,
+        setAllPokemon,
       }}>
       {children}
     </PokemonContext.Provider>
