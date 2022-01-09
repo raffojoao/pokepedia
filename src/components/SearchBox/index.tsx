@@ -15,10 +15,13 @@ const SearchBox: React.FC<SearchBoxProps> = ({
   sortByNumber,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const {getAllPokemon, searchPokemon} = usePokemon();
+  const {getAllPokemon, searchPokemon, setOffset} = usePokemon();
 
   useEffect(() => {
-    searchTerm.trim() === '' && getAllPokemon();
+    if (searchTerm.trim() === '') {
+      setOffset(0);
+      getAllPokemon();
+    }
   }, [searchTerm]);
 
   return (

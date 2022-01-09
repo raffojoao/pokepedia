@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, FlatListProps} from 'react-native';
 import {PokeCard} from '../';
+import {useNavigation} from '@react-navigation/native';
 
 interface PokeListProps {
   data: any;
@@ -8,6 +9,8 @@ interface PokeListProps {
 }
 
 const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
+  const navigation = useNavigation();
+
   return (
     <FlatList
       keyExtractor={(_, index) => String(index)}
@@ -22,9 +25,13 @@ const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
 
         return (
           <PokeCard
-            handlePress={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            handlePress={() =>
+              navigation.navigate('Details', {
+                name: item.name,
+                number: pokeNumber,
+                url: item.url,
+              })
+            }
             title={item.name}
             spriteUri={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeNumber}.png`}
             number={pokeNumber}

@@ -1,8 +1,9 @@
 import React, {createContext, useState, useContext, useEffect} from 'react';
 import api from '../../services/api';
 
-type Pokemon = {
+export type Pokemon = {
   name: string;
+  number: string;
   url: string;
 };
 export interface IPokemonContext {
@@ -20,6 +21,7 @@ export interface IPokemonContext {
   loadMore: () => Promise<void>;
   totalViewed: number;
   setTotalViewed: (number: number) => void;
+  getPokemon: (number: string) => Promise<void>;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -102,6 +104,13 @@ const PokemonProvider = ({children}: any) => {
     }
   };
 
+  const getPokemon = async (number: string) => {
+    const response = await api.get(
+      `https://pokeapi.co/api/v2/pokemon/${number}`,
+    );
+    return response.data;
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -116,6 +125,7 @@ const PokemonProvider = ({children}: any) => {
         setOffset,
         searchPokemon,
         setAllPokemon,
+        getPokemon,
       }}>
       {children}
     </PokemonContext.Provider>

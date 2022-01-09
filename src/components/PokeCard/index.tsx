@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 
 import * as S from './styles';
 
@@ -19,7 +18,7 @@ const PokeCard: React.FC<CardProps> = ({
   const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
 
   return (
-    <S.Container onPress={() => console.log('TEST')}>
+    <S.Container onPress={handlePress}>
       <S.Header>
         <S.Number>{`#${number}`}</S.Number>
       </S.Header>
