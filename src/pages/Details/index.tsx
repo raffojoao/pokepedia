@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Image, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import {typeCard} from '../../constants/types';
 
 import * as S from './styles';
-import {Header} from '../../components';
+import {Header, Separator} from '../../components';
+import {SvgUri, Svg, SvgProps} from 'react-native-svg';
+import {convertToKilograms, convertToMeters} from '../../utils/utils';
 
 const Details: React.FC = () => {
   const route = useRoute();
@@ -16,6 +18,7 @@ const Details: React.FC = () => {
   const [types, setTypes] = useState([]);
   const [pokeName, setPokename] = useState('');
   const [pokeNumber, setPokeNumber] = useState('');
+  const [pokemonData, setPokemonData] = useState({});
 
   const pokemon: Pokemon = route.params;
 
@@ -28,6 +31,7 @@ const Details: React.FC = () => {
     setPokeNumber(`#${zeros + pokemon?.number}`);
 
     const pokeData = await getPokemon(pokemon.number);
+    setPokemonData(pokeData);
     setTypes(pokeData.types);
     setMainType(pokeData.types[0].type.name);
   };
@@ -61,6 +65,11 @@ const Details: React.FC = () => {
             }}
           />
           <S.TypeContainer>
+            {/* <SvgUri
+              width="200"
+              height="200"
+              uri="https://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
+            /> */}
             {types.map(item => {
               return (
                 <Image
@@ -75,6 +84,42 @@ const Details: React.FC = () => {
               );
             })}
           </S.TypeContainer>
+          <S.TitleContainer>
+            <S.Title pageColor={mainType}>About</S.Title>
+          </S.TitleContainer>
+          <S.Attributes>
+            <S.Attribute>
+              <S.Measures>
+                <Images.scale />
+                <S.MeasureText>
+                  {convertToKilograms(pokemonData.weight)}
+                </S.MeasureText>
+              </S.Measures>
+              <S.BottomText>Weight</S.BottomText>
+            </S.Attribute>
+            <Separator />
+            <S.Attribute>
+              <S.Measures>
+                <Images.ruler />
+                <S.MeasureText>
+                  {convertToMeters(pokemonData.height)}
+                </S.MeasureText>
+              </S.Measures>
+              <S.BottomText>Height</S.BottomText>
+            </S.Attribute>
+            <Separator />
+            <S.Attribute>
+              <S.Measures>
+                <Images.ruler />
+                <S.MeasureText>9,9m</S.MeasureText>
+              </S.Measures>
+              <S.BottomText>Moves</S.BottomText>
+            </S.Attribute>
+          </S.Attributes>
+
+          <S.TitleContainer>
+            <S.Title pageColor={mainType}>BaseStats</S.Title>
+          </S.TitleContainer>
         </S.DataContainer>
       </S.Wrapper>
     </S.Container>
