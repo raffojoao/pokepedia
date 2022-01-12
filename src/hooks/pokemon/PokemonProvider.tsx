@@ -5,6 +5,10 @@ export type Pokemon = {
   name: string;
   number: string;
   url: string;
+  weight: string;
+  height: string;
+  types: object[];
+  moves: object[];
 };
 export interface IPokemonContext {
   getAllPokemon: (limit?: number, offset?: number) => Promise<void>;

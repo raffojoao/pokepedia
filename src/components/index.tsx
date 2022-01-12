@@ -1,3 +1,4 @@
+export {default as Attributes} from './Attributes';
 export {default as Footer} from './Footer';
 export {default as Header} from './Header';
 export {default as PokeCard} from './PokeCard';

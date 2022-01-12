@@ -52,35 +52,3 @@ ${({pageColor}) =>
     color: ${({theme}: any) => theme.colors.types[pageColor]};
   `};
 `;
-
-export const Attributes = styled.View`
-  width: 100%;
-  height: 48px;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const Measures = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-`;
-
-export const MeasureText = styled.Text`
-  font-family: ${({theme}) => theme.fonts.regular}
-  font-size: 14px;
-  color: ${({theme}) => theme.colors.grayScale.dark}
-  margin-left: 4px
-`;
-
-export const BottomText = styled.Text`
-font-family: ${({theme}) => theme.fonts.regular}
-font-size: 14px;
-color: ${({theme}) => theme.colors.grayScale.medium}
-`;
-
-export const Attribute = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-`;

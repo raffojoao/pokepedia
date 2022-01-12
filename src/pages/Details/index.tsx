@@ -6,9 +6,7 @@ import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import {typeCard} from '../../constants/types';
 
 import * as S from './styles';
-import {Header, Separator} from '../../components';
-import {SvgUri, Svg, SvgProps} from 'react-native-svg';
-import {convertToKilograms, convertToMeters} from '../../utils/utils';
+import {Header, Attributes} from '../../components';
 
 const Details: React.FC = () => {
   const route = useRoute();
@@ -18,9 +16,9 @@ const Details: React.FC = () => {
   const [types, setTypes] = useState([]);
   const [pokeName, setPokename] = useState('');
   const [pokeNumber, setPokeNumber] = useState('');
-  const [pokemonData, setPokemonData] = useState({});
+  const [pokemonData, setPokemonData] = useState<Pokemon>();
 
-  const pokemon: Pokemon = route.params;
+  const pokemon: any = route.params;
 
   const getPokemonData = async () => {
     setPokename(pokemon?.name.charAt(0).toUpperCase() + pokemon?.name.slice(1));
@@ -30,7 +28,7 @@ const Details: React.FC = () => {
     }
     setPokeNumber(`#${zeros + pokemon?.number}`);
 
-    const pokeData = await getPokemon(pokemon.number);
+    const pokeData: any = await getPokemon(pokemon.number);
     setPokemonData(pokeData);
     setTypes(pokeData.types);
     setMainType(pokeData.types[0].type.name);
@@ -87,36 +85,11 @@ const Details: React.FC = () => {
           <S.TitleContainer>
             <S.Title pageColor={mainType}>About</S.Title>
           </S.TitleContainer>
-          <S.Attributes>
-            <S.Attribute>
-              <S.Measures>
-                <Images.scale />
-                <S.MeasureText>
-                  {convertToKilograms(pokemonData.weight)}
-                </S.MeasureText>
-              </S.Measures>
-              <S.BottomText>Weight</S.BottomText>
-            </S.Attribute>
-            <Separator />
-            <S.Attribute>
-              <S.Measures>
-                <Images.ruler />
-                <S.MeasureText>
-                  {convertToMeters(pokemonData.height)}
-                </S.MeasureText>
-              </S.Measures>
-              <S.BottomText>Height</S.BottomText>
-            </S.Attribute>
-            <Separator />
-            <S.Attribute>
-              <S.Measures>
-                <Images.ruler />
-                <S.MeasureText>9,9m</S.MeasureText>
-              </S.Measures>
-              <S.BottomText>Moves</S.BottomText>
-            </S.Attribute>
-          </S.Attributes>
-
+          <Attributes
+            weight={pokemonData?.weight}
+            height={pokemonData?.height}
+            moves={pokemonData?.moves}
+          />
           <S.TitleContainer>
             <S.Title pageColor={mainType}>BaseStats</S.Title>
           </S.TitleContainer>
