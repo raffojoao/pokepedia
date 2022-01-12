@@ -32,4 +32,9 @@ export const DataContainer = styled.View`
   background-color: ${({theme}) => theme.colors.grayScale.white};
   align-items: center;
   justify-content: flex-start;
+  padding-top: 56px;
+`;
+
+export const TypeContainer = styled.View`
+  flex-direction: row;
 `;

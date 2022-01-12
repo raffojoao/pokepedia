@@ -3,6 +3,7 @@ import {Image, View} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
+import {typeCard} from '../../constants/types';
 
 import * as S from './styles';
 import {Header} from '../../components';
@@ -11,7 +12,8 @@ const Details: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const {getPokemon} = usePokemon();
-  const [type, setType] = useState('');
+  const [mainType, setMainType] = useState('');
+  const [types, setTypes] = useState([]);
   const [pokeName, setPokename] = useState('');
   const [pokeNumber, setPokeNumber] = useState('');
 
@@ -26,7 +28,8 @@ const Details: React.FC = () => {
     setPokeNumber(`#${zeros + pokemon?.number}`);
 
     const pokeData = await getPokemon(pokemon.number);
-    setType(pokeData.types[0].type.name);
+    setTypes(pokeData.types);
+    setMainType(pokeData.types[0].type.name);
   };
 
   useEffect(() => {
@@ -34,7 +37,7 @@ const Details: React.FC = () => {
   }, []);
 
   return (
-    <S.Container pageColor={type}>
+    <S.Container pageColor={mainType}>
       <Header
         pokemonName={pokeName}
         pokemonNumber={pokeNumber}
@@ -57,6 +60,21 @@ const Details: React.FC = () => {
               uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.number}.png`,
             }}
           />
+          <S.TypeContainer>
+            {types.map(item => {
+              return (
+                <Image
+                  style={{
+                    width: 42,
+                    height: 20,
+                    marginHorizontal: 8,
+                  }}
+                  source={typeCard[item.type.name]}
+                  key={String(item.type.name)}
+                />
+              );
+            })}
+          </S.TypeContainer>
         </S.DataContainer>
       </S.Wrapper>
     </S.Container>
