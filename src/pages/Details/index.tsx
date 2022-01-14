@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
@@ -7,16 +7,18 @@ import {typeCard} from '../../constants/types';
 
 import * as S from './styles';
 import {Header, Attributes} from '../../components';
+import api from '../../services/api';
 
 const Details: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const {getPokemon} = usePokemon();
+  const {getPokemon, getDescription} = usePokemon();
   const [mainType, setMainType] = useState('');
   const [types, setTypes] = useState([]);
   const [pokeName, setPokename] = useState('');
   const [pokeNumber, setPokeNumber] = useState('');
   const [pokemonData, setPokemonData] = useState<Pokemon>();
+  const [description, setDescription] = useState('');
 
   const pokemon: any = route.params;
 
@@ -32,6 +34,9 @@ const Details: React.FC = () => {
     setPokemonData(pokeData);
     setTypes(pokeData.types);
     setMainType(pokeData.types[0].type.name);
+
+    const pokeDescription = await getDescription(pokemon.number);
+    setDescription(pokeDescription);
   };
 
   useEffect(() => {
@@ -90,6 +95,9 @@ const Details: React.FC = () => {
             height={pokemonData?.height}
             moves={pokemonData?.moves}
           />
+          <S.DescriptionContainer>
+            <S.Description>{description}</S.Description>
+          </S.DescriptionContainer>
           <S.TitleContainer>
             <S.Title pageColor={mainType}>BaseStats</S.Title>
           </S.TitleContainer>

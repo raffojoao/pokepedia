@@ -26,6 +26,7 @@ export interface IPokemonContext {
   totalViewed: number;
   setTotalViewed: (number: number) => void;
   getPokemon: (number: string) => Promise<void>;
+  getDescription: (number: string) => Promise<void>;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -115,6 +116,18 @@ const PokemonProvider = ({children}: any) => {
     return response.data;
   };
 
+  const getDescription = async (number: string) => {
+    const response = (
+      await api.get(`https://pokeapi.co/api/v2/pokemon-species/${number}`)
+    ).data;
+
+    const allDescriptions = response.flavor_text_entries.filter(
+      (flavor: any) => flavor.language.name === 'en',
+    );
+    const description = allDescriptions[0].flavor_text;
+    return description.replace(/\r\n|\r|\n|\f/gm, ' ');
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -130,6 +143,7 @@ const PokemonProvider = ({children}: any) => {
         searchPokemon,
         setAllPokemon,
         getPokemon,
+        getDescription,
       }}>
       {children}
     </PokemonContext.Provider>

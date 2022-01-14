@@ -7,6 +7,7 @@ export const Container = styled.View`
   width: 100%
   flex-direction: row;
   justify-content: space-between;
+  margin-vertical: 8px
 `;
 
 export const Measures = styled.View`
@@ -25,7 +26,7 @@ export const MeasureText = styled.Text`
 
 export const BottomText = styled.Text`
 font-family: ${({theme}) => theme.fonts.regular}
-font-size: 14px;
+font-size: 12px;
 color: ${({theme}) => theme.colors.grayScale.medium}
 
 `;

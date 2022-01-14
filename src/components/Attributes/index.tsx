@@ -47,13 +47,13 @@ const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
               data={moves}
               keyExtractor={(_, index) => String(index)}
               renderItem={({item}) => {
-                console.log(item);
                 return (
                   <View style={{flex: 1, marginLeft: 4, alignItems: 'center'}}>
                     <S.MovesText>{getMoveName(item.move.name)}</S.MovesText>
                   </View>
                 );
               }}
+              showsVerticalScrollIndicator={false}
             />
           </S.Measures>
           <S.BottomText>Moves</S.BottomText>

@@ -40,7 +40,7 @@ export const TypeContainer = styled.View`
 `;
 
 export const TitleContainer = styled.View`
-  margin-vertical: 16px;
+  margin-vertical: 8px;
 `;
 
 export const Title = styled.Text<DetailsProps>`
@@ -51,4 +51,16 @@ ${({pageColor}) =>
   css`
     color: ${({theme}: any) => theme.colors.types[pageColor]};
   `};
+`;
+
+export const DescriptionContainer = styled.View`
+  width: 100%
+  align-items: flex-start;
+  margin-vertical: 8px;
+`;
+
+export const Description = styled.Text`
+  font-family: ${({theme}) => theme.fonts.regular}
+  font-size: 16px
+  text-align: justify
 `;
