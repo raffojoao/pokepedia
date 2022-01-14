@@ -57,6 +57,7 @@ export const DescriptionContainer = styled.View`
   width: 100%
   align-items: flex-start;
   margin-vertical: 8px;
+  color: ${({theme}) => theme.colors.grayScale.dark};
 `;
 
 export const Description = styled.Text`

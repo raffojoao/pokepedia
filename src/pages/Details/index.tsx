@@ -6,7 +6,7 @@ import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import {typeCard} from '../../constants/types';
 
 import * as S from './styles';
-import {Header, Attributes} from '../../components';
+import {Header, Attributes, Stats} from '../../components';
 import api from '../../services/api';
 
 const Details: React.FC = () => {
@@ -19,6 +19,7 @@ const Details: React.FC = () => {
   const [pokeNumber, setPokeNumber] = useState('');
   const [pokemonData, setPokemonData] = useState<Pokemon>();
   const [description, setDescription] = useState('');
+  const [baseStats, setBaseStats] = useState([]);
 
   const pokemon: any = route.params;
 
@@ -34,6 +35,7 @@ const Details: React.FC = () => {
     setPokemonData(pokeData);
     setTypes(pokeData.types);
     setMainType(pokeData.types[0].type.name);
+    setBaseStats(pokeData.stats);
 
     const pokeDescription = await getDescription(pokemon.number);
     setDescription(pokeDescription);
@@ -101,6 +103,7 @@ const Details: React.FC = () => {
           <S.TitleContainer>
             <S.Title pageColor={mainType}>BaseStats</S.Title>
           </S.TitleContainer>
+          <Stats type={mainType} stats={baseStats} />
         </S.DataContainer>
       </S.Wrapper>
     </S.Container>
