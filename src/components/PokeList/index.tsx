@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, FlatListProps} from 'react-native';
+import {FlatList} from 'react-native';
 import {PokeCard} from '../';
 import {useNavigation} from '@react-navigation/native';
 
@@ -40,7 +40,7 @@ const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
       }}
       numColumns={2}
       showsVerticalScrollIndicator={false}
-      ListFooterComponent={footer}
+      // ListFooterComponent={footer}
     />
   );
 };

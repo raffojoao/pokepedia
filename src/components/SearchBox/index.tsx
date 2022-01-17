@@ -39,7 +39,10 @@ const SearchBox: React.FC<SearchBoxProps> = ({
         <S.SearchText
           placeholder="Search"
           value={searchTerm}
-          onChangeText={setSearchTerm}
+          onChangeText={term => {
+            setSearchTerm(term);
+            searchPokemon(term);
+          }}
           maxLength={20}
           onSubmitEditing={() => searchPokemon(searchTerm)}
           onEndEditing={() => searchPokemon(searchTerm)}

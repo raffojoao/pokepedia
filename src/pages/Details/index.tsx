@@ -3,7 +3,7 @@ import {Image, Text, TouchableOpacity, View} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
-import {typeCard} from '../../constants/types';
+import {TypeCard} from '../../components';
 
 import * as S from './styles';
 import {Header, Attributes, Stats} from '../../components';
@@ -45,6 +45,60 @@ const Details: React.FC = () => {
     getPokemonData();
   }, []);
 
+  const typeImgs = {
+    bug: () => {
+      return <Images.bug />;
+    },
+    dark: () => {
+      return <Images.dark />;
+    },
+    dragon: () => {
+      return <Images.dragon />;
+    },
+    electric: () => {
+      return <Images.electric />;
+    },
+    fairy: () => {
+      return <Images.fairy />;
+    },
+    fighting: () => {
+      return <Images.fighting />;
+    },
+    flying: () => {
+      return <Images.flying />;
+    },
+    ghost: () => {
+      return <Images.ghost />;
+    },
+    grass: () => {
+      return <Images.grass />;
+    },
+    ground: () => {
+      return <Images.ground />;
+    },
+    ice: () => {
+      return <Images.ice />;
+    },
+    normal: () => {
+      return <Images.normal />;
+    },
+    poison: () => {
+      return <Images.poison />;
+    },
+    psychic: () => {
+      return <Images.psychic />;
+    },
+    rock: () => {
+      return <Images.rock />;
+    },
+    steel: () => {
+      return <Images.steel />;
+    },
+    water: () => {
+      return <Images.water />;
+    },
+  };
+
   return (
     <S.Container pageColor={mainType}>
       <Header
@@ -70,23 +124,8 @@ const Details: React.FC = () => {
             }}
           />
           <S.TypeContainer>
-            {/* <SvgUri
-              width="200"
-              height="200"
-              uri="https://thenewcode.com/assets/images/thumbnails/homer-simpson.svg"
-            /> */}
             {types.map(item => {
-              return (
-                <Image
-                  style={{
-                    width: 42,
-                    height: 20,
-                    marginHorizontal: 8,
-                  }}
-                  source={typeCard[item.type.name]}
-                  key={String(item.type.name)}
-                />
-              );
+              return typeImgs[item.type.name]();
             })}
           </S.TypeContainer>
           <S.TitleContainer>

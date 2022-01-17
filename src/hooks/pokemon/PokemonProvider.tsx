@@ -27,6 +27,8 @@ export interface IPokemonContext {
   setTotalViewed: (number: number) => void;
   getPokemon: (number: string) => Promise<void>;
   getDescription: (number: string) => Promise<void>;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -38,6 +40,7 @@ const PokemonProvider = ({children}: any) => {
   const [totalFound, setTotalFound] = useState('');
   const [offset, setOffset] = useState(0);
   const [viewedItems, setViewedItems] = useState(offset + 20);
+  const [loading, setLoading] = useState(false);
 
   const handlePagination = (response: any) => {
     if (response.next) {
@@ -49,21 +52,25 @@ const PokemonProvider = ({children}: any) => {
   };
 
   const getAllPokemon = async () => {
+    setLoading(true);
     try {
       const response = await (
-        await api.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset}`)
+        await api.get(`https://pokeapi.co/api/v2/pokemon?limit=898`)
       ).data;
 
       handlePagination(response);
       setAllPokemon(response.results);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   const getNext = async () => {
     if (hasNext) {
       try {
+        setLoading(true);
         const difference = 898 - viewedItems;
         if (difference >= 20) {
           const response = (await api.get(nextUrl)).data;
@@ -71,6 +78,7 @@ const PokemonProvider = ({children}: any) => {
           setViewedItems(viewedItems + 20);
           setAllPokemon(oldState => [...oldState, ...response.results]);
           handlePagination(response);
+          setLoading(false);
         } else {
           const response = (
             await api.get(
@@ -81,15 +89,18 @@ const PokemonProvider = ({children}: any) => {
           setOffset(898);
           setViewedItems(898);
           setHasNext(false);
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
   };
 
   const searchPokemon = async (name: string) => {
     try {
+      setLoading(true);
       let foundPokemon = await (
         await api.get(`https://pokeapi.co/api/v2/pokemon?limit=898`)
       ).data;
@@ -104,28 +115,45 @@ const PokemonProvider = ({children}: any) => {
       // }
       setAllPokemon(foundPokemon);
       setHasNext(false);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   const getPokemon = async (number: string) => {
-    const response = await api.get(
-      `https://pokeapi.co/api/v2/pokemon/${number}`,
-    );
-    return response.data;
+    try {
+      setLoading(true);
+      const response = await api.get(
+        `https://pokeapi.co/api/v2/pokemon/${number}`,
+      );
+      setLoading(false);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   const getDescription = async (number: string) => {
-    const response = (
-      await api.get(`https://pokeapi.co/api/v2/pokemon-species/${number}`)
-    ).data;
+    try {
+      setLoading(true);
+      const response = (
+        await api.get(`https://pokeapi.co/api/v2/pokemon-species/${number}`)
+      ).data;
 
-    const allDescriptions = response.flavor_text_entries.filter(
-      (flavor: any) => flavor.language.name === 'en',
-    );
-    const description = allDescriptions[0].flavor_text;
-    return description.replace(/\r\n|\r|\n|\f/gm, ' ');
+      const allDescriptions = response.flavor_text_entries.filter(
+        (flavor: any) => flavor.language.name === 'en',
+      );
+      const description = allDescriptions[0].flavor_text;
+      setLoading(false);
+      setLoading(false);
+      return description.replace(/\r\n|\r|\n|\f/gm, ' ');
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -144,6 +172,8 @@ const PokemonProvider = ({children}: any) => {
         setAllPokemon,
         getPokemon,
         getDescription,
+        loading,
+        setLoading,
       }}>
       {children}
     </PokemonContext.Provider>
