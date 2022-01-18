@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ActivityIndicator} from 'react-native';
+import {Image, ActivityIndicator, Text, View} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';
-
 import * as S from './styles';
-import {Header, Attributes, Stats} from '../../components';
-import api from '../../services/api';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Header, Attributes, Stats, Pagination} from '../../components';
 
 const Details: React.FC = () => {
   const route = useRoute();
@@ -16,37 +13,44 @@ const Details: React.FC = () => {
   const [mainType, setMainType] = useState('');
   const [types, setTypes] = useState([]);
   const [pokeName, setPokename] = useState('');
-  const [pokeNumber, setPokeNumber] = useState('');
+  const [pokeNumber, setPokeNumber] = useState<number>();
+  const [pokeStringNumber, setPokeStringNumber] = useState('');
   const [pokemonData, setPokemonData] = useState<Pokemon>();
   const [description, setDescription] = useState('');
   const [baseStats, setBaseStats] = useState([]);
   const [loading, setloading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [next, setNext] = useState('');
+  const [previous, setPrevious] = useState('');
 
   const pokemon: any = route.params;
 
-  const getPokemonData = async () => {
-    setPokename(pokemon?.name.charAt(0).toUpperCase() + pokemon?.name.slice(1));
+  const getPokemonData = async (number: string) => {
+    setloading(true);
+    const pokeData: any = await getPokemon(number);
+
+    setPokename(pokeData.name.charAt(0).toUpperCase() + pokeData.name.slice(1));
     let zeros = '';
-    for (var i = 0; i < 3 - pokemon.number.length; i++) {
+    for (var i = 0; i < 3 - number.length; i++) {
       zeros += '0';
     }
-    setPokeNumber(`#${zeros + pokemon?.number}`);
-
-    const pokeData: any = await getPokemon(pokemon.number);
+    setPokeNumber(parseInt(number));
+    setPokeStringNumber(`#${zeros + number}`);
     setPokemonData(pokeData);
     setTypes(pokeData.types);
     setMainType(pokeData.types[0].type.name);
     setBaseStats(pokeData.stats);
 
-    const pokeDescription = await getDescription(pokemon.number);
+    const pokeDescription = await getDescription(number);
     setDescription(pokeDescription);
+
+    parseInt(number) < 898 && setNext(`${parseInt(number) + 1}`);
+    parseInt(number) > 1 && setPrevious(`${parseInt(number) - 1}`);
 
     setloading(false);
   };
 
   useEffect(() => {
-    getPokemonData();
+    getPokemonData(pokemon.number);
   }, []);
 
   const typeImgs = {
@@ -115,14 +119,21 @@ const Details: React.FC = () => {
     <S.Container pageColor={mainType}>
       <Header
         pokemonName={pokeName}
-        pokemonNumber={pokeNumber}
+        pokemonNumber={pokeStringNumber}
         onPressIcon={() => navigation.goBack()}
       />
       <S.Wrapper showsVerticalScrollIndicator={false}>
         <S.ImageContainer>
           <Images.pokeball fillOpacity={0.1} />
         </S.ImageContainer>
+
         <S.DataContainer>
+          <Pagination
+            canGoLeft={pokeNumber > 1}
+            canGoRight={pokeNumber < 898}
+            onPressLeftButton={() => getPokemonData(previous)}
+            onPressRightButton={() => getPokemonData(next)}
+          />
           <Image
             style={{
               width: 200,
@@ -131,7 +142,7 @@ const Details: React.FC = () => {
               top: -150,
             }}
             source={{
-              uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.number}.png`,
+              uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokeNumber}.png`,
             }}
           />
           <S.TypeContainer>
@@ -145,8 +156,7 @@ const Details: React.FC = () => {
           <Attributes
             weight={pokemonData?.weight}
             height={pokemonData?.height}
-            moves={pokemonData?.moves}
-            onPressMovesButton={() => setModalVisible(true)}
+            // moves={pokemonData.moves}
           />
           <S.DescriptionContainer>
             <S.Description>{description}</S.Description>

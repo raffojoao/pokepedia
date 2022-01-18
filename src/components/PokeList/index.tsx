@@ -26,9 +26,9 @@ const PokeList: React.FC<PokeListProps> = ({data}) => {
           <PokeCard
             handlePress={() =>
               navigation.navigate('Details', {
-                name: item.name,
+                // name: item.name,
                 number: pokeNumber,
-                url: item.url,
+                // url: item.url,
               })
             }
             title={item.name}

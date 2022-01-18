@@ -1,14 +1,13 @@
 import styled, {css} from 'styled-components/native';
-import {Dimensions} from 'react-native';
-
+import {Responsive} from '../../utils/responsive.helpers';
 export interface DetailsProps {
   pageColor: string;
 }
 
 export const Container = styled.SafeAreaView<DetailsProps>`
   flex: 1;
-  padding-horizontal: 16px;
-  padding-bottom: 16px;
+  padding-horizontal: ${Responsive(16)}px;
+  padding-bottom: ${Responsive(16)}px;
   ${({pageColor}) =>
     pageColor &&
     css`
@@ -18,21 +17,22 @@ export const Container = styled.SafeAreaView<DetailsProps>`
 
 export const Wrapper = styled.ScrollView`
   flex: 1;
-  padding-horizontal: 16px;
+  padding-horizontal: ${Responsive(16)}px;
 `;
 
 export const ImageContainer = styled.View`
   align-items: flex-end;
-  margin-bottom: 8px;
 `;
 
 export const DataContainer = styled.View`
   flex: 1
-  border-radius: 8px;
+  border-radius: ${Responsive(8)}px;
   background-color: ${({theme}) => theme.colors.grayScale.white};
   align-items: center;
   justify-content: flex-start;
-  padding: 56px 20px 28px 20px;
+  padding: ${Responsive(56)}px ${Responsive(20)}px ${Responsive(
+  28,
+)}px ${Responsive(20)}px;
 `;
 
 export const TypeContainer = styled.View`
@@ -40,12 +40,12 @@ export const TypeContainer = styled.View`
 `;
 
 export const TitleContainer = styled.View`
-  margin-vertical: 8px;
+  margin-vertical: ${Responsive(8)}px;
 `;
 
 export const Title = styled.Text<DetailsProps>`
 font-family: ${({theme}) => theme.fonts.bold}
-font-size: 20px;
+font-size: ${Responsive(20)}px;
 ${({pageColor}) =>
   pageColor &&
   css`
@@ -56,12 +56,12 @@ ${({pageColor}) =>
 export const DescriptionContainer = styled.View`
   width: 100%
   align-items: flex-start;
-  margin-vertical: 8px;
+  margin-vertical: ${Responsive(8)}px;
   color: ${({theme}) => theme.colors.grayScale.dark};
 `;
 
 export const Description = styled.Text`
   font-family: ${({theme}) => theme.fonts.regular}
-  font-size: 16px
+  font-size: ${Responsive(16)}px
   text-align: justify
 `;

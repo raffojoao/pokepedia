@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Responsive} from '../../utils/responsive.helpers';
 
 export const Container = styled.SafeAreaView`
   flex: 1
@@ -7,10 +8,10 @@ export const Container = styled.SafeAreaView`
 
 export const Wrapper = styled.View`
   flex: 1;
-  padding-horizontal: 16px;
+  padding-horizontal: ${Responsive(16)}px;
 `;
 
 export const ListContainer = styled.View`
-  margin-vertical: 8px;
+  margin-vertical: ${Responsive(8)}px;
   flex: 1;
 `;

@@ -9,6 +9,8 @@ import arrowRightDisabled from '../assets/images/arrow-right-disabled.svg';
 import search from '../assets/images/search.svg';
 import scale from '../assets/images/scale.svg';
 import ruler from '../assets/images/ruler.svg';
+import chevronLeft from '../assets/images/chevron-left.svg';
+import chevronRight from '../assets/images/chevron-right.svg';
 
 import bug from '../assets/images/types/bug.svg';
 import dark from '../assets/images/types/dark.svg';
@@ -41,6 +43,8 @@ class Images {
   static search = search;
   static scale = scale;
   static ruler = ruler;
+  static chevronLeft = chevronLeft;
+  static chevronRight = chevronRight;
 
   static bug = bug;
   static dark = dark;

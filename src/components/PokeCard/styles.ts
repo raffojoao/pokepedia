@@ -4,6 +4,7 @@ import {Dimensions} from 'react-native';
 const {width} = Dimensions.get('window');
 const cardWith = (width - 40) / 2;
 import Image from 'react-native-image-progress';
+import {Responsive} from '../../utils/responsive.helpers';
 
 interface PokeCardProps {
   cardColor: string;
@@ -12,8 +13,8 @@ interface PokeCardProps {
 export const Container = styled.TouchableOpacity<PokeCardProps>`
   width: ${cardWith}px;
   height: ${cardWith}px;
-  border-radius: 8px;
-  border-width: 1px;
+  border-radius: ${Responsive(8)}px;
+  border-width: ${Responsive(1)}px;
   background-color: ${({theme}) => theme.colors.grayScale.white}
     ${({cardColor}) =>
       cardColor &&
@@ -25,7 +26,7 @@ export const Container = styled.TouchableOpacity<PokeCardProps>`
 
 export const Header = styled.View`
   width: 100%;
-  height: 16px;
+  height: ${Responsive(16)}px;
   resize-mode: contain;
   background-color: ${({theme}) => theme.colors.grayScale.white};
   align-items: flex-end;
@@ -40,12 +41,12 @@ export const Number = styled.Text<PokeCardProps>`
     css`
       color: ${({theme}: any) => theme.colors.types[cardColor]};
     `};
-  margin-right: 4px;
+  margin-right: ${Responsive(4)}px;
 `;
 
 export const Footer = styled.View<PokeCardProps>`
   width: 100%;
-  height: 24px;
+  height: ${Responsive(24)}px;
   resize-mode: contain;
   ${({cardColor}) =>
     cardColor &&

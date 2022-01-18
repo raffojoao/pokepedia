@@ -1,8 +1,5 @@
 import styled, {css} from 'styled-components/native';
-import {Dimensions} from 'react-native';
-
-const {width} = Dimensions.get('window');
-
+import {Responsive} from '../../utils/responsive.helpers';
 interface StatsColorProps {
   color: string;
 }
@@ -13,7 +10,7 @@ export const Container = styled.View`
 
 export const StatsName = styled.Text<StatsColorProps>`
   font-family: ${({theme}) => theme.fonts.bold};
-  font-size: 16px;
+  font-size: ${Responsive(16)}px;
   ${({color}) =>
     color &&
     css`
@@ -28,22 +25,22 @@ export const Stat = styled.View`
 `;
 
 export const StatNameAlign = styled.View`
-  width: 44px;
+  width: ${Responsive(44)}px;
   align-items: flex-end;
 `;
 
 export const StatsValue = styled.Text`
   font-family: ${({theme}) => theme.fonts.regular};
   color: ${({theme}) => theme.colors.grayScale.dark};
-  margin-horizontal: 8px;
-  font-size: 16px;
-  width: 32px;
+  margin-horizontal: ${Responsive(8)}px;
+  font-size: ${Responsive(16)}px;
+  width: ${Responsive(32)}px;
 `;
 
 export const StatBarWrapper = styled.View<StatsColorProps>`
   flex: 1;
-  height: 4px;
-  border-radius: 2px;
+  height: ${Responsive(4)}px;
+  border-radius: ${Responsive(2)}px;
   ${({color}) =>
     color &&
     css`
@@ -54,8 +51,8 @@ export const StatBarWrapper = styled.View<StatsColorProps>`
 export const StatBar = styled.View<StatsColorProps>`
   opacity: 1;
   width: 50%;
-  height: 4px;
-  border-radius: 2px;
+  height: ${Responsive(4)}px;
+  border-radius: ${Responsive(2)}px;
   ${({color}) =>
     color &&
     css`

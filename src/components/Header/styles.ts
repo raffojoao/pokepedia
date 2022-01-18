@@ -1,9 +1,11 @@
 import styled from 'styled-components/native';
+import {Responsive} from '../../utils/responsive.helpers';
 
 export const Container = styled.View`
   width: 100%;
-  padding-horizontal: 16px;
-  margin-bottom: 8px;
+  padding-horizontal: ${Responsive(16)}px;
+  margin-bottom: ${Responsive(8)}px;
+  justify-content: center;
 `;
 
 export const TitleContainer = styled.View`
@@ -18,7 +20,7 @@ export const TitleLeft = styled.View`
 
 export const TitleText = styled.Text`
   font-family: ${({theme}) => theme.fonts.bold};
-  font-size: 24px;
-  margin-left: 16px;
+  font-size: ${Responsive(24)}px;
+  margin-left: ${Responsive(16)}px;
   color: ${({theme}) => theme.colors.grayScale.white};
 `;

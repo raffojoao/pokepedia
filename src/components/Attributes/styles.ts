@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
+import {Responsive} from '../../utils/responsive.helpers';
 
 const {width} = Dimensions.get('window');
 
@@ -7,26 +8,26 @@ export const Container = styled.View`
   width: 100%
   flex-direction: row;
   justify-content: space-between;
-  margin-vertical: 8px
+  margin-vertical: ${Responsive(8)}px
 `;
 
 export const Measures = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  height: 40px;
+  height: ${Responsive(40)}px;
 `;
 
 export const MeasureText = styled.Text`
   font-family: ${({theme}) => theme.fonts.regular}
-  font-size: 16px;
+  font-size: ${Responsive(16)}px;
   color: ${({theme}) => theme.colors.grayScale.dark}
-  margin-left: 4px
+  margin-left: ${Responsive(4)}px
 `;
 
 export const BottomText = styled.Text`
 font-family: ${({theme}) => theme.fonts.regular}
-font-size: 12px;
+font-size: ${Responsive(12)}px;
 color: ${({theme}) => theme.colors.grayScale.medium}
 
 `;
@@ -37,7 +38,7 @@ export const Alignment = styled.View`
 
 export const Weight = styled.View`
   flex: 1
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
 `;
 
@@ -51,6 +52,11 @@ export const Moves = styled.View`
   align-items: flex-end;
 `;
 
+export const MoveList = styled.ScrollView`
+  flex-direction: row;
+`;
+
 export const MovesText = styled.Text`
   font-family: ${({theme}) => theme.fonts.regular};
+  margin-left: ${Responsive(4)}px;
 `;

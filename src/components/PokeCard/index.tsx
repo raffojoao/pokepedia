@@ -20,8 +20,13 @@ const PokeCard: React.FC<CardProps> = ({
   const [type, setType] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const renderColor = async () => {
+    const type = await getMainType(number);
+    setType(type);
+  };
+
   useEffect(() => {
-    getMainType(number).then(res => setType(res));
+    renderColor();
   }, [number]);
 
   return (

@@ -1,23 +1,17 @@
 import React from 'react';
+import {View} from 'react-native';
 import {Separator} from '../';
 import Images from '../../constants/images';
 import {convertToKilograms, convertToMeters} from '../../utils/utils';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 
 import * as S from './styles';
-
 interface AttributesProps {
   weight: any;
   height: any;
-  moves: any[] | undefined;
-  onPressMovesButton: () => void;
+  // moves: any[] | undefined;
 }
 
-const Attributes: React.FC<AttributesProps> = ({
-  weight,
-  height,
-  onPressMovesButton,
-}) => {
+const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
   const getMoveName = (move: string) => {
     const capitalized = move.charAt(0).toUpperCase() + move.slice(1);
     return capitalized.replace('-', ' ');
@@ -44,29 +38,25 @@ const Attributes: React.FC<AttributesProps> = ({
           <S.BottomText>Height</S.BottomText>
         </S.Alignment>
       </S.Height>
-      <Separator />
+      {/* <Separator />
       <S.Moves>
         <S.Alignment>
           <S.Measures>
-            <TouchableOpacity onPress={onPressMovesButton}>
-              <Images.pokeballSmall />
-            </TouchableOpacity>
-            {/* <FlatList
-              data={moves}
-              keyExtractor={(_, index) => String(index)}
-              renderItem={({item}) => {
-                return (
-                  <View style={{flex: 1, marginLeft: 4, alignItems: 'center'}}>
-                    <S.MovesText>{getMoveName(item.move.name)}</S.MovesText>
-                  </View>
-                );
-              }}
+            <S.MoveList>
               showsVerticalScrollIndicator={false}
-            /> */}
+              showsHorizontalScrollIndicator={false}
+              {moves.map(move => {
+                return (
+                  <S.MovesText key={move.move.name}>
+                    {getMoveName(move.move.name)}
+                  </S.MovesText>
+                );
+              })}
+            </S.MoveList>
           </S.Measures>
           <S.BottomText>Moves</S.BottomText>
         </S.Alignment>
-      </S.Moves>
+      </S.Moves> */}
     </S.Container>
   );
 };
