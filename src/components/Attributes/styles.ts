@@ -36,18 +36,18 @@ export const Alignment = styled.View`
 `;
 
 export const Weight = styled.View`
-  flex: 4
+  flex: 1
   align-items: flex-start;
   justify-content: space-between;
 `;
 
 export const Height = styled(Weight)`
-  flex: 4
+  flex: 1
   align-items: center;
 `;
 
 export const Moves = styled.View`
-  flex: 5
+  flex: 1
   align-items: flex-end;
 `;
 

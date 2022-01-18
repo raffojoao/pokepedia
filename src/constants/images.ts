@@ -15,7 +15,7 @@ import dark from '../assets/images/types/dark.svg';
 import dragon from '../assets/images/types/dragon.svg';
 import electric from '../assets/images/types/electric.svg';
 import fairy from '../assets/images/types/fairy.svg';
-import fighting from '../assets/images/types/bug.svg';
+import fighting from '../assets/images/types/fighting.svg';
 import fire from '../assets/images/types/fire.svg';
 import flying from '../assets/images/types/flying.svg';
 import ghost from '../assets/images/types/ghost.svg';

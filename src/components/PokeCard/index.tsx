@@ -1,7 +1,7 @@
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
+import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import * as S from './styles';
-
+import Image from 'react-native-image-progress';
 export interface CardProps {
   handlePress: () => void;
   title: string;
@@ -16,20 +16,30 @@ const PokeCard: React.FC<CardProps> = ({
   spriteUri,
 }) => {
   const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
+  const {getMainType} = usePokemon();
+  const [type, setType] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getMainType(number).then(res => setType(res));
+  }, [number]);
 
   return (
-    <S.Container onPress={handlePress}>
+    <S.Container onPress={handlePress} cardColor={type}>
       <S.Header>
-        <S.Number>{`#${number}`}</S.Number>
+        <S.Number cardColor={type}>{`#${number}`}</S.Number>
       </S.Header>
-      <S.SpriteContainer>
-        <S.Sprite
-          source={{
-            uri: spriteUri,
-          }}
-        />
-      </S.SpriteContainer>
-      <S.Footer>
+      <Image
+        source={{uri: spriteUri}}
+        style={{
+          flex: 1,
+        }}
+        imageStyle={{
+          flex: 1,
+          resizeMode: 'contain',
+        }}
+      />
+      <S.Footer cardColor={type}>
         <S.Title>{capitalizedTitle}</S.Title>
       </S.Footer>
     </S.Container>

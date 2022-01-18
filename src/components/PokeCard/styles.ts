@@ -1,17 +1,27 @@
-import styled from 'styled-components/native';
+import styled, {css} from 'styled-components/native';
 import {Dimensions} from 'react-native';
 
 const {width} = Dimensions.get('window');
 const cardWith = (width - 40) / 2;
+import Image from 'react-native-image-progress';
 
-export const Container = styled.TouchableOpacity`
+interface PokeCardProps {
+  cardColor: string;
+}
+
+export const Container = styled.TouchableOpacity<PokeCardProps>`
   width: ${cardWith}px;
   height: ${cardWith}px;
   border-radius: 8px;
   border-width: 1px;
   background-color: ${({theme}) => theme.colors.grayScale.white}
-  border-color: ${({theme}) => theme.colors.grayScale.dark};
-  overflow: hidden;`;
+    ${({cardColor}) =>
+      cardColor &&
+      css`
+        border-color: ${({theme}: any) => theme.colors.types[cardColor]};
+      `};
+  overflow: hidden;
+`;
 
 export const Header = styled.View`
   width: 100%;
@@ -22,29 +32,26 @@ export const Header = styled.View`
   justify-content: center;
 `;
 
-export const Number = styled.Text`
+export const Number = styled.Text<PokeCardProps>`
   font-family: ${({theme}) => theme.fonts.regular};
   font-size: 10px;
-  color: ${({theme}) => theme.colors.grayScale.dark};
+  ${({cardColor}) =>
+    cardColor &&
+    css`
+      color: ${({theme}: any) => theme.colors.types[cardColor]};
+    `};
   margin-right: 4px;
 `;
 
-export const SpriteContainer = styled.View`
-  flex: 1;
-  background-color: ${({theme}) => theme.colors.grayScale.white};
-`;
-
-export const Sprite = styled.Image`
-  flex: 1;
-  resize-mode: contain;
-  background-color: ${({theme}) => theme.colors.grayScale.white};
-`;
-
-export const Footer = styled.View`
+export const Footer = styled.View<PokeCardProps>`
   width: 100%;
   height: 24px;
   resize-mode: contain;
-  background-color: ${({theme}) => theme.colors.grayScale.dark};
+  ${({cardColor}) =>
+    cardColor &&
+    css`
+      background-color: ${({theme}: any) => theme.colors.types[cardColor]};
+    `};
   align-items: center;
   justify-content: center;
 `;

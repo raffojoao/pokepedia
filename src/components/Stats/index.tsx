@@ -5,13 +5,6 @@ import {Separator} from '..';
 import * as S from './styles';
 
 interface StatsProps {
-  hp: string;
-  atk: string;
-  def: string;
-  satk: string;
-  sdef: string;
-  spd: string;
-  type: string;
   stats: any[];
 }
 

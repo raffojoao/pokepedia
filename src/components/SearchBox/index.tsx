@@ -1,29 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import Images from '../../constants/images';
-import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 
 import * as S from './styles';
 
 interface SearchBoxProps {
   toggleSortMode: () => void;
   sortByNumber: boolean;
+  onPressSearch: () => void;
+  onChangeText: (text: string) => void;
+  onSubmitEditing: () => void;
+  onEndEditing: () => void;
+  searchTerm: string;
 }
 
 const SearchBox: React.FC<SearchBoxProps> = ({
   toggleSortMode,
   sortByNumber,
+  onPressSearch,
+  onChangeText,
+  onSubmitEditing,
+  onEndEditing,
+  searchTerm,
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const {getAllPokemon, searchPokemon, setOffset} = usePokemon();
-
-  useEffect(() => {
-    if (searchTerm.trim() === '') {
-      setOffset(0);
-      getAllPokemon();
-    }
-  }, [searchTerm]);
-
   return (
     <S.Container>
       <S.TitleContainer>
@@ -31,23 +30,20 @@ const SearchBox: React.FC<SearchBoxProps> = ({
           <Images.pokeballSmall />
           <S.TitleText>Poképedia</S.TitleText>
         </S.TitleLeft>
-        {/* <S.SortBy onPress={toggleSortMode}>
+        <S.SortBy onPress={toggleSortMode}>
           {sortByNumber ? <Images.sortByName /> : <Images.sortByNumber />}
-        </S.SortBy> */}
+        </S.SortBy>
       </S.TitleContainer>
       <S.SearchBox>
         <S.SearchText
           placeholder="Search"
           value={searchTerm}
-          onChangeText={term => {
-            setSearchTerm(term);
-            searchPokemon(term);
-          }}
+          onChangeText={onChangeText}
           maxLength={20}
-          onSubmitEditing={() => searchPokemon(searchTerm)}
-          onEndEditing={() => searchPokemon(searchTerm)}
+          onSubmitEditing={onSubmitEditing}
+          onEndEditing={onEndEditing}
         />
-        <TouchableOpacity onPress={() => searchPokemon(searchTerm)}>
+        <TouchableOpacity onPress={onPressSearch}>
           <Images.search />
         </TouchableOpacity>
       </S.SearchBox>

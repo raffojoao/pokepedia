@@ -2,7 +2,7 @@ import React from 'react';
 import {Separator} from '../';
 import Images from '../../constants/images';
 import {convertToKilograms, convertToMeters} from '../../utils/utils';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 
 import * as S from './styles';
 
@@ -10,9 +10,14 @@ interface AttributesProps {
   weight: any;
   height: any;
   moves: any[] | undefined;
+  onPressMovesButton: () => void;
 }
 
-const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
+const Attributes: React.FC<AttributesProps> = ({
+  weight,
+  height,
+  onPressMovesButton,
+}) => {
   const getMoveName = (move: string) => {
     const capitalized = move.charAt(0).toUpperCase() + move.slice(1);
     return capitalized.replace('-', ' ');
@@ -43,7 +48,10 @@ const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
       <S.Moves>
         <S.Alignment>
           <S.Measures>
-            <FlatList
+            <TouchableOpacity onPress={onPressMovesButton}>
+              <Images.pokeballSmall />
+            </TouchableOpacity>
+            {/* <FlatList
               data={moves}
               keyExtractor={(_, index) => String(index)}
               renderItem={({item}) => {
@@ -54,7 +62,7 @@ const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
                 );
               }}
               showsVerticalScrollIndicator={false}
-            />
+            /> */}
           </S.Measures>
           <S.BottomText>Moves</S.BottomText>
         </S.Alignment>

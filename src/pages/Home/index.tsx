@@ -1,31 +1,45 @@
 import React, {useEffect, useState} from 'react';
-import {SearchBox, PokeList, Footer} from '../../components';
+import {SearchBox, PokeList} from '../../components';
 import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
-import {useNavigation} from '@react-navigation/native';
 
 import * as S from './styles';
 
 const Home: React.FC = () => {
+  const {getAllPokemon, allPokemon, hasNext, getNext} = usePokemon();
+
   const [sortByNumber, setSortByNumber] = useState(true);
-
-  const {
-    getAllPokemon,
-    allPokemon,
-    setAllPokemon,
-    hasNext,
-    getNext,
-    totalFound,
-    offset,
-  } = usePokemon();
-
-  const navigation = useNavigation();
+  const [pokemonList, setPokemonList] = useState<any[]>(allPokemon);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [foundPokemon, setFoundPokemon] = useState<any[]>([]);
 
   const getPokemon = async () => {
-    await getAllPokemon();
+    const response = await getAllPokemon();
+    setPokemonList(response);
+  };
+
+  const searchPokemon = () => {
+    if (!searchTerm) {
+      setPokemonList(allPokemon);
+    }
+    const found = [...allPokemon].filter(item =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+
+    setFoundPokemon(found);
+    setPokemonList(found);
   };
 
   const toggleSortMode = () => {
     setSortByNumber(!sortByNumber);
+    const pokemonByName = [...pokemonList].sort((a, b) =>
+      a.name.localeCompare(b.name),
+    );
+
+    if (!sortByNumber) {
+      setPokemonList(searchTerm ? foundPokemon : allPokemon);
+    } else {
+      setPokemonList(pokemonByName);
+    }
   };
 
   useEffect(() => {
@@ -33,23 +47,23 @@ const Home: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!sortByNumber) {
-      const pokemonByName = allPokemon.sort((a, b) =>
-        a.name.localeCompare(b.name),
-      );
-      setAllPokemon(pokemonByName);
-    }
-  }, [sortByNumber]);
+    searchPokemon();
+  }, [searchTerm]);
 
   return (
     <S.Container>
-      <SearchBox sortByNumber={sortByNumber} toggleSortMode={toggleSortMode} />
+      <SearchBox
+        sortByNumber={sortByNumber}
+        toggleSortMode={toggleSortMode}
+        searchTerm={searchTerm}
+        onChangeText={text => setSearchTerm(text)}
+        onEndEditing={() => searchPokemon()}
+        onSubmitEditing={() => searchPokemon()}
+        onPressSearch={() => searchPokemon()}
+      />
       <S.Wrapper>
         <S.ListContainer>
-          <PokeList
-            data={allPokemon}
-            footer={hasNext && <Footer handlePress={getNext} />}
-          />
+          <PokeList data={pokemonList} />
         </S.ListContainer>
       </S.Wrapper>
     </S.Container>

@@ -8,6 +8,7 @@ export interface DetailsProps {
 export const Container = styled.SafeAreaView<DetailsProps>`
   flex: 1;
   padding-horizontal: 16px;
+  padding-bottom: 16px;
   ${({pageColor}) =>
     pageColor &&
     css`
@@ -15,10 +16,9 @@ export const Container = styled.SafeAreaView<DetailsProps>`
     `};
 `;
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView`
   flex: 1;
   padding-horizontal: 16px;
-  justify-content: space-between;
 `;
 
 export const ImageContainer = styled.View`

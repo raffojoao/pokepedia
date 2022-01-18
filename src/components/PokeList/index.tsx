@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList} from 'react-native';
 import {PokeCard} from '../';
 import {useNavigation} from '@react-navigation/native';
-
+import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 interface PokeListProps {
   data: any;
-  footer: any;
 }
 
-const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
+const PokeList: React.FC<PokeListProps> = ({data}) => {
   const navigation = useNavigation();
 
   return (
@@ -40,7 +39,6 @@ const PokeList: React.FC<PokeListProps> = ({data, footer}) => {
       }}
       numColumns={2}
       showsVerticalScrollIndicator={false}
-      // ListFooterComponent={footer}
     />
   );
 };

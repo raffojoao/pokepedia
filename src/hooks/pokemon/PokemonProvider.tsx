@@ -21,7 +21,6 @@ export interface IPokemonContext {
   setTotalFound: (total: string) => void;
   offset: number;
   setOffset: (offset: number) => void;
-  searchPokemon: (name: string) => Promise<void>;
   loadMore: () => Promise<void>;
   totalViewed: number;
   setTotalViewed: (number: number) => void;
@@ -29,6 +28,7 @@ export interface IPokemonContext {
   getDescription: (number: string) => Promise<void>;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  getMainType: (name: string) => Promise<void>;
 }
 
 const PokemonContext = createContext<IPokemonContext>({} as IPokemonContext);
@@ -61,6 +61,7 @@ const PokemonProvider = ({children}: any) => {
       handlePagination(response);
       setAllPokemon(response.results);
       setLoading(false);
+      return response.results;
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -98,30 +99,6 @@ const PokemonProvider = ({children}: any) => {
     }
   };
 
-  const searchPokemon = async (name: string) => {
-    try {
-      setLoading(true);
-      let foundPokemon = await (
-        await api.get(`https://pokeapi.co/api/v2/pokemon?limit=898`)
-      ).data;
-
-      foundPokemon = foundPokemon.results.filter(item =>
-        item.name.toLowerCase().includes(name.toLowerCase()),
-      );
-
-      // setTotalFound(foundPokemon.length);
-      // if (foundPokemon.length < 20) {
-      //   setOffset(foundPokemon.length);
-      // }
-      setAllPokemon(foundPokemon);
-      setHasNext(false);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
   const getPokemon = async (number: string) => {
     try {
       setLoading(true);
@@ -156,6 +133,13 @@ const PokemonProvider = ({children}: any) => {
     }
   };
 
+  const getMainType = async (name: string) => {
+    const type = await (
+      await api.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    ).data;
+    return type.types[0].type.name;
+  };
+
   return (
     <PokemonContext.Provider
       value={{
@@ -168,12 +152,12 @@ const PokemonProvider = ({children}: any) => {
         setTotalFound,
         offset,
         setOffset,
-        searchPokemon,
         setAllPokemon,
         getPokemon,
         getDescription,
         loading,
         setLoading,
+        getMainType,
       }}>
       {children}
     </PokemonContext.Provider>
