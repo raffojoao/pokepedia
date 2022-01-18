@@ -2,8 +2,6 @@ import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
 import {Responsive} from '../../utils/responsive.helpers';
 
-const {width} = Dimensions.get('window');
-
 export const Container = styled.View`
   width: 100%
   flex-direction: row;

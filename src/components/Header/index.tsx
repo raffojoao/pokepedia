@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import Images from '../../constants/images';
-import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 
 import * as S from './styles';
 

@@ -1,6 +1,4 @@
-import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
-import {Separator} from '..';
+import React from 'react';
 
 import * as S from './styles';
 

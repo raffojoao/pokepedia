@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, ActivityIndicator, Text, View} from 'react-native';
+import {Image, ActivityIndicator} from 'react-native';
 import Images from '../../constants/images';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Pokemon, usePokemon} from '../../hooks/pokemon/PokemonProvider';

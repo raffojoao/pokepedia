@@ -1,5 +1,4 @@
 import React from 'react';
-import {View} from 'react-native';
 import {Separator} from '../';
 import Images from '../../constants/images';
 import {convertToKilograms, convertToMeters} from '../../utils/utils';
@@ -8,15 +7,9 @@ import * as S from './styles';
 interface AttributesProps {
   weight: any;
   height: any;
-  // moves: any[] | undefined;
 }
 
-const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
-  const getMoveName = (move: string) => {
-    const capitalized = move.charAt(0).toUpperCase() + move.slice(1);
-    return capitalized.replace('-', ' ');
-  };
-
+const Attributes: React.FC<AttributesProps> = ({weight, height}) => {
   return (
     <S.Container>
       <S.Weight>
@@ -38,25 +31,6 @@ const Attributes: React.FC<AttributesProps> = ({weight, height, moves}) => {
           <S.BottomText>Height</S.BottomText>
         </S.Alignment>
       </S.Height>
-      {/* <Separator />
-      <S.Moves>
-        <S.Alignment>
-          <S.Measures>
-            <S.MoveList>
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              {moves.map(move => {
-                return (
-                  <S.MovesText key={move.move.name}>
-                    {getMoveName(move.move.name)}
-                  </S.MovesText>
-                );
-              })}
-            </S.MoveList>
-          </S.Measures>
-          <S.BottomText>Moves</S.BottomText>
-        </S.Alignment>
-      </S.Moves> */}
     </S.Container>
   );
 };

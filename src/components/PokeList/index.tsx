@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList} from 'react-native';
 import {PokeCard} from '../';
 import {useNavigation} from '@react-navigation/native';
-import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 interface PokeListProps {
   data: any;
 }
