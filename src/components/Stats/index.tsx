@@ -18,6 +18,10 @@ const Stats: React.FC<StatsProps> = ({type, stats}) => {
     speed: 'SPD',
   };
 
+  const values = Array.from(stats, item => parseInt(item.base_stat));
+
+  const maxValue = values.reduce((a, b) => Math.max(a, b));
+
   return (
     <S.Container>
       {stats.map(stat => {
@@ -38,7 +42,7 @@ const Stats: React.FC<StatsProps> = ({type, stats}) => {
             <S.StatBarWrapper color={type}>
               <S.StatBar
                 color={type}
-                style={{width: `${(stat.base_stat * 100) / 255}%`}}
+                style={{width: `${(stat.base_stat * 100) / maxValue}%`}}
               />
             </S.StatBarWrapper>
           </S.Stat>
