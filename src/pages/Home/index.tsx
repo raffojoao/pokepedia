@@ -5,7 +5,7 @@ import {usePokemon} from '../../hooks/pokemon/PokemonProvider';
 import * as S from './styles';
 
 const Home: React.FC = () => {
-  const {getAllPokemon, allPokemon, hasNext, getNext} = usePokemon();
+  const {getAllPokemon, allPokemon} = usePokemon();
 
   const [sortByNumber, setSortByNumber] = useState(true);
   const [pokemonList, setPokemonList] = useState<any[]>(allPokemon);
@@ -21,8 +21,10 @@ const Home: React.FC = () => {
     if (!searchTerm) {
       setPokemonList(allPokemon);
     }
-    const found = [...allPokemon].filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    const found = [...allPokemon].filter(
+      item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.url.includes(searchTerm),
     );
 
     setFoundPokemon(found);
