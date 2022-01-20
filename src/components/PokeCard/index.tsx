@@ -18,15 +18,20 @@ const PokeCard: React.FC<CardProps> = ({
   const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
   const {getMainType} = usePokemon();
   const [type, setType] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const renderColor = async () => {
-    const type = await getMainType(number);
-    setType(type);
-  };
 
   useEffect(() => {
+    let isMounted = true; // note mutable flag
     renderColor();
+    return () => {
+      isMounted = false;
+    };
+
+    async function renderColor() {
+      await getMainType(number).then(type => {
+        if (isMounted) setType(type);
+        else console.log('aborted setType on unmounted component'); //
+      });
+    }
   }, [number]);
 
   return (
