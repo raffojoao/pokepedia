@@ -25,7 +25,7 @@ export const TitleText = styled.Text`
 
 export const SearchBox = styled.View`
   width: 100%;
-  height: 32px;
+  max-height: ${Responsive(36)}px
   margin-top: ${Responsive(8)}px;
   padding-horizontal: ${Responsive(8)}px;
   background-color: ${({theme}) => theme.colors.grayScale.white};
@@ -40,7 +40,11 @@ export const SearchBox = styled.View`
 export const SearchText = styled.TextInput`
   font-family: ${({theme}) => theme.fonts.regular}
   font-size: ${Responsive(16)}px;
+  line-height: ${Responsive(20)}px;
   color: ${({theme}) => theme.colors.grayScale.medium}
+  width: 80%;
+  height: ${Responsive(32)}px
+  padding: 0;
 `;
 
 export const SortBy = styled.TouchableOpacity``;
