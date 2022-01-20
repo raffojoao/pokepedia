@@ -20,7 +20,7 @@ const PokeCard: React.FC<CardProps> = ({
   const [type, setType] = useState('');
 
   useEffect(() => {
-    let isMounted = true; // note mutable flag
+    let isMounted = true;
     renderColor();
     return () => {
       isMounted = false;
